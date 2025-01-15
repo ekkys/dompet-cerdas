@@ -12,4 +12,8 @@ class Type extends Model
     {
         return $this->hasMany(Category::class, 'id_type');
     }
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'id_type');
+    }
 }
