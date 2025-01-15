@@ -12,7 +12,7 @@ class WalletController extends Controller
      */
     public function index()
     {
-        //
+        return view('user.wallet.index');
     }
 
     /**
