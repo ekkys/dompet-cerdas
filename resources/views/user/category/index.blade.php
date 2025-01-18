@@ -1,69 +1,66 @@
 @extends('layouts.app')
 @section('content')
     <div class="pagetitle">
-        <h1>Input Kategori</h1>
+        <h1>Kategori</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item">Forms</li>
-                <li class="breadcrumb-item active">Layouts</li>
+                <li class="breadcrumb-item"><a href="">Home</a></li>
+                <li class="breadcrumb-item active">Kategori</li>
             </ol>
         </nav>
     </div>
+
     <section class="section">
         <div class="row">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Kategori</h5>
-
-                        <!-- Floating Labels Form -->
-                        <form class="row g-3">
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingName"
-                                        placeholder="Nama Kategori">
-                                    <label for="floatingName">Nama Kategori</label>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="floatingSelect" aria-label="State">
-                                        <option value="">Pilih Tipe</option>
-                                        <option value="0">Expense</option>
-                                        <option value="1">Income</option>
-                                        <option value="2">Transfer</option>
-                                    </select>
-                                    <label for="floatingSelect">Tipe</label>
-                                </div>
-                            </div>
-
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Reset</button>
-                            </div>
-                        </form><!-- End floating Labels Form -->
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">List Kategori</h5>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
+                            data-bs-target="#kategoriModal">
+                            Tambah Kategori
+                        </button>
+
                         <!-- Table with hoverable rows -->
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
                                     <th scope="col">Nama</th>
+                                    <th scope="col">Tipe</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-
+                                @foreach ($categories as $key => $category)
+                                    <tr>
+                                        <th scope="row">{{ $key + 1 }}</th>
+                                        <td>{{ $category->name }}</td>
+                                        <td>
+                                            @if ($category->type == 0)
+                                                Expense
+                                            @elseif($category->type == 1)
+                                                Income
+                                            @elseif($category->type == 2)
+                                                Transfer
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-warning btn-sm"
+                                                onclick="editCategory({{ $category }})" data-bs-toggle="modal"
+                                                data-bs-target="#kategoriModal"><i class="bi bi-pencil"></i></button>
+                                            <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"><i
+                                                        class="bi bi-trash"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <!-- End Table with hoverable rows -->
@@ -72,4 +69,40 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="kategoriModal" tabindex="-1" aria-labelledby="kategoriModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="kategoriForm" action="{{ route('categories.store') }}" method="POST">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="kategoriModalLabel">Tambah Kategori</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="id" name="id">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Nama Kategori" required>
+                            <label for="name">Nama Kategori</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="type" name="type" required>
+                                <option value="">Pilih Tipe</option>
+                                <option value="0">Expense</option>
+                                <option value="1">Income</option>
+                                <option value="2">Transfer</option>
+                            </select>
+                            <label for="type">Tipe</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection

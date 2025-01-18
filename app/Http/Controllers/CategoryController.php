@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('user.category.index');
+        $categories = Category::all();
+        return view('user.category.index', compact('categories'));
     }
 
     /**
@@ -28,7 +29,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|integer',
+        ]);
+
+        Category::updateOrCreate(
+            ['id' => $request->id],
+            ['name' => $request->name, 'type' => $request->type]
+        );
+
+        return redirect()->route('categories.index')->with('success', 'Kategori berhasil disimpan!');
     }
 
     /**
@@ -58,8 +69,11 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus!');
     }
 }
