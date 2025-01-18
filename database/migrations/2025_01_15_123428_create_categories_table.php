@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('id_type')->constrained('types')->onDelete('cascade');
+            $table->enum('id_type', ['income', 'outcome', 'transfer']); // Referensi langsung ke enum
             $table->timestamps();
         });
     }
