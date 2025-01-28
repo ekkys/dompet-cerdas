@@ -39,13 +39,7 @@
                                         <th scope="row">{{ $key + 1 }}</th>
                                         <td>{{ $category->name }}</td>
                                         <td>
-                                            @if ($category->type == 0)
-                                                Expense
-                                            @elseif($category->type == 1)
-                                                Income
-                                            @elseif($category->type == 2)
-                                                Transfer
-                                            @endif
+                                            {{ $category->id_type }}
                                         </td>
                                         <td>
                                             <button class="btn btn-warning btn-sm"

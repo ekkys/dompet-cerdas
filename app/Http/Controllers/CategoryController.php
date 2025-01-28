@@ -29,6 +29,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|integer',
@@ -36,7 +37,7 @@ class CategoryController extends Controller
 
         Category::updateOrCreate(
             ['id' => $request->id],
-            ['name' => $request->name, 'type' => $request->type]
+            ['name' => $request->name, 'id_type' => $request->type]
         );
 
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil disimpan!');
