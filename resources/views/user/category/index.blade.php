@@ -18,9 +18,9 @@
                         <h5 class="card-title">List Kategori</h5>
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-                            data-bs-target="#kategoriModal">
-                            Tambah Kategori
+                        <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal"
+                            data-bs-target="#kategoriModal"> <i class="bi bi-bookmark-plus-fill"></i>
+                            Buat Kategori Baru
                         </button>
 
                         <!-- Table with hoverable rows -->
@@ -42,14 +42,14 @@
                                             {{ $category->id_type }}
                                         </td>
                                         <td>
-                                            <button class="btn btn-warning btn-sm"
+                                            <button class="btn btn-warning btn-md mb-2 mt-2"
                                                 onclick="editCategory({{ $category }})" data-bs-toggle="modal"
                                                 data-bs-target="#kategoriModal"><i class="bi bi-pencil"></i></button>
                                             <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
                                                 onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?')"class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"><i
+                                                <button type="submit" class="btn btn-danger btn-md"><i
                                                         class="bi bi-trash"></i></button>
                                             </form>
                                         </td>
