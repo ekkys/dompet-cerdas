@@ -46,7 +46,7 @@
                                                 onclick="editCategory({{ $category }})" data-bs-toggle="modal"
                                                 data-bs-target="#kategoriModal"><i class="bi bi-pencil"></i></button>
                                             <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
-                                                class="d-inline">
+                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?')"class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"><i
