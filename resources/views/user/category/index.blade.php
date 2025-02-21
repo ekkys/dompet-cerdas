@@ -1,6 +1,22 @@
 @extends('layouts.app')
+@section('css')
+    <style>
+        .icon-option {
+            cursor: pointer;
+            padding: 10px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+
+        .icon-option:hover {
+            border: 2px solid #6c757d;
+            background-color: #f8f9fa;
+        }
+    </style>
+@endsection
 @section('content')
-    <div class="pagetitle">
+    {{-- <div class="pagetitle">
         <h1>Kategori</h1>
         <nav>
             <ol class="breadcrumb">
@@ -98,5 +114,111 @@
                 </div>
             </form>
         </div>
+    </div> --}}
+
+    <div class="card">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between">
+            <span>Manajemen Kategori</span>
+            <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#categoryModal">Tambah</button>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>🍔 Makanan</span> <span class="badge bg-danger">Pengeluaran</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>💰 Gaji</span> <span class="badge bg-success">Pemasukan</span>
+                </li>
+            </ul>
+        </div>
     </div>
+
+    <!-- Modal Tambah Kategori -->
+    <div class="modal fade" id="categoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Kategori</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Nama Kategori</label>
+                            <input type="text" class="form-control" placeholder="Masukkan nama kategori">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Jenis</label>
+                            <select class="form-select">
+                                <option>Pemasukan</option>
+                                <option>Pengeluaran</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ikon Kategori</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="iconInput"
+                                    placeholder="Pilih ikon atau masukkan manual">
+                                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#iconPickerModal">Pilih</button>
+                            </div>
+                            <div class="mt-2">
+                                <i id="iconPreview" class="fas fa-question-circle fa-2x"></i> <!-- Preview Ikon -->
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="iconPickerModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pilih Ikon</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!-- Ikon FontAwesome -->
+                        <div class="col-2 text-center mb-3">
+                            <i class="fas fa-utensils fa-2x icon-option" data-icon="fa-utensils"></i>
+                        </div>
+                        <div class="col-2 text-center mb-3">
+                            <i class="fas fa-shopping-cart fa-2x icon-option" data-icon="fa-shopping-cart"></i>
+                        </div>
+                        <div class="col-2 text-center mb-3">
+                            <i class="fas fa-car fa-2x icon-option" data-icon="fa-car"></i>
+                        </div>
+                        <div class="col-2 text-center mb-3">
+                            <i class="fas fa-home fa-2x icon-option" data-icon="fa-home"></i>
+                        </div>
+                        <div class="col-2 text-center mb-3">
+                            <i class="fas fa-money-bill-wave fa-2x icon-option" data-icon="fa-money-bill-wave"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('js')
+    <script>
+        document.querySelectorAll('.icon-option').forEach(icon => {
+            icon.addEventListener('click', function() {
+                let selectedIcon = this.getAttribute('data-icon');
+
+                // Update input field dengan nama ikon
+                document.getElementById('iconInput').value = selectedIcon;
+
+                // Update preview ikon
+                document.getElementById('iconPreview').className = `fas ${selectedIcon} fa-2x`;
+
+                // Tutup modal setelah memilih ikon
+                let modal = bootstrap.Modal.getInstance(document.getElementById('iconPickerModal'));
+                modal.hide();
+            });
+        });
+    </script>
 @endsection

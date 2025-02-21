@@ -94,7 +94,7 @@
 
         <!-- GRAFIK -->
         <div class="row">
-            <div class="col-8 col-md-6">
+            <div class="col-8">
                 <div class="card">
 
                     <div class="filter">
@@ -179,7 +179,7 @@
                 </div>
             </div>
 
-            <div class="col-4 col-md-2">
+            <div class="col-4">
                 <!-- Circle Outcome Traffic -->
                 <div class="card">
                     <div class="filter">
