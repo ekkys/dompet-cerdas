@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Faker\Guesser\Name;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -21,7 +22,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.category.create');
     }
 
     /**
@@ -29,18 +30,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
         $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|integer',
+            'id_type' => 'required|in:income,outcome,transfer',
         ]);
 
-        Category::updateOrCreate(
-            ['id' => $request->id],
-            ['name' => $request->name, 'id_type' => $request->type]
-        );
+        Category::create([
+            'name' => $request->name,
+            'id_type' => $request->id_type,
+        ]);
 
-        return redirect()->route('categories.index')->with('success', 'Kategori berhasil disimpan!');
+        return redirect()->route('categories.index')->with('success', 'Kategori Berhasil ditambahkan!');
     }
 
     /**
@@ -56,7 +56,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('user.category.edit', compact('category'));
     }
 
     /**
@@ -64,15 +64,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'id_type' => 'required|in:income,outcome,transfer',
+        ]);
+
+        $category->update($request->all());
+        return redirect()->route('categories.index')->with('success', 'Kategori Berhasil diubah!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $category = Category::findOrFail($id);
         $category->delete();
 
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus!');
